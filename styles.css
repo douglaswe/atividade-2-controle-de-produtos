@@ -1,0 +1,128 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Estilo do body */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f6f8;
+  color: #333;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Título */
+h1 {
+  margin-bottom: 30px;
+  font-size: 2rem;
+  color: #2c3e50;
+}
+
+/* Formulário */
+.forms {
+  background-color: #ffffff;
+  padding: 25px 30px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 500px;
+  margin-bottom: 30px;
+}
+
+.forms form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.forms input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.forms button {
+  padding: 12px;
+  background-color: #2ecc71;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.forms button:hover {
+  background-color: #27ae60;
+}
+
+/* Campo de busca */
+.filtro {
+  margin-bottom: 25px;
+  width: 100%;
+  max-width: 500px;
+}
+
+.filtro input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+/* Tabela */
+.tabelaProdutos {
+  width: 100%;
+  max-width: 800px;
+  border-collapse: collapse;
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.tabelaProdutos thead {
+  background-color: #3498db;
+  color: white;
+}
+
+.tabelaProdutos th,
+.tabelaProdutos td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.tabelaProdutos td:hover {
+  background-color: #f1f1f1;
+}
+#carregando {
+  text-align: center;
+  font-weight: bold;
+  color: #444;
+  margin: 10px;
+  font-size: 18px;
+}
+
+
+/* Responsividade */
+@media (max-width: 600px) {
+  .tabelaProdutos th,
+  .tabelaProdutos td {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .forms,
+  .filtro {
+    padding: 20px;
+  }
+}

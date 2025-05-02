@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Controle de Vendas</title>
+</head>
+
+<body>
+    <div>
+        <h1>Controle de Vendas:</h1>
+    </div>
+    <div>
+        <table class="tabelaProdutos">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Produto:</th>
+                    <th>Preço (em R$):</th>
+                    <th>Quantidade:</th>
+                </tr>
+            </thead>
+            <tbody id="corpoTabela">
+
+                <tr>
+                    <td><input type="checkbox" class="selecionar"></td>
+                    <td>Camiseta Regata</td>
+                    <td class="preco">19.90</td>
+                    <td><input type="number" class="quantidade" min="0" value="0" disabled></td>
+                </tr>
+
+                <tr>
+                    <td><input type="checkbox" class="selecionar"></td>
+                    <td>Camiseta Social</td>
+                    <td class="preco">59.90</td>
+                    <td><input type="number" class="quantidade" min="0" value="0" disabled></td>
+                </tr>
+
+                <tr>
+                    <td><input type="checkbox" class="selecionar"></td>
+                    <td>Blusa</td>
+                    <td class="preco">119.90</td>
+                    <td><input type="number" class="quantidade" min="0" value="0" disabled></td>
+                </tr>
+
+                <tr>
+                    <td><input type="checkbox" class="selecionar"></td>
+                    <td>Pullover</td>
+                    <td class="preco">39.90</td>
+                    <td><input type="number" class="quantidade" min="0" value="0" disabled></td>
+                </tr>
+
+                <tr>
+                    <td><input type="checkbox" class="selecionar"></td>
+                    <td>Sapato</td>
+                    <td class="preco">99.90</td>
+                    <td><input type="number" class="quantidade" min="0" value="0" disabled></td>
+                </tr>
+
+                <tr>
+                    <td><input type="checkbox" class="selecionar"></td>
+                    <td>Calça</td>
+                    <td class="preco">38.90</td>
+                    <td><input type="number" class="quantidade" min="0" value="0" disabled></td>
+                </tr>
+
+                <tr>
+                    <td><input type="checkbox" class="selecionar"></td>
+                    <td>Meias</td>
+                    <td class="preco">9.90</td>
+                    <td><input type="number" class="quantidade" min="0" value="0" disabled></td>
+                </tr>
+
+                <tr>
+                    <td><input type="checkbox" class="selecionar"></td>
+                    <td>Luvas</td>
+                    <td class="preco">24.90</td>
+                    <td><input type="number" class="quantidade" min="0" value="0" disabled></td>
+                </tr>
+
+                <tr>
+                    <td><input type="checkbox" class="selecionar"></td>
+                    <td>Jaqueta</td>
+                    <td class="preco">329.90</td>
+                    <td><input type="number" class="quantidade" min="0" value="0" disabled></td>
+                </tr>
+
+                <tr>
+                    <td><input type="checkbox" class="selecionar"></td>
+                    <td>Bermuda</td>
+                    <td class="preco">69.90</td>
+                    <td><input type="number" class="quantidade" min="0" value="0" disabled></td>
+                </tr>
+
+                <tr>
+                    <td><input type="checkbox" class="selecionar"></td>
+                    <td>Chinelo</td>
+                    <td class="preco">14.90</td>
+                    <td><input type="number" class="quantidade" min="0" value="0" disabled></td>
+                </tr>
+
+                <tr>
+                    <td><input type="checkbox" class="selecionar"></td>
+                    <td>Boné</td>
+                    <td class="preco">6.90</td>
+                    <td><input type="number" class="quantidade" min="0" value="0" disabled></td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+    <br>
+    <h2>Forma de Pagamento:</h2>
+    <br>
+    <div>
+        <input type="radio" name="pagamento" id="aVista" value="aVista" />
+        <label for="aVista">À Vista</label>
+    </div>
+    <br>
+    <div>
+        <input type="radio" name="pagamento" id="aPrazo" value="aPrazo">
+        <label for="aPrazo">À Prazo</label>
+    </div>
+
+    <div id="parcelamento" style="display: none; margin-top: 10px;">
+        <label for="qtdParcelas">Quantidade de parcelas:</label>
+        <select id="qtdParcelas">
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+    </div>
+
+
+</body>
+
+</html>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const checkboxes = document.querySelectorAll(".selecionar")
+        const radios = document.querySelectorAll("input[name='pagamento']")
+        const corpoTabela = document.getElementById("corpoTabela")
+        const selectParcelas = document.getElementById("qtdParcelas");
+        const divParcelamento = document.getElementById("parcelamento");
+
+        const totalDiv = document.createElement("div")
+        totalDiv.id = "totalVenda"
+        totalDiv.style.marginTop = "20px"
+        totalDiv.innerHTML = "<strong> Total: R$ 0.00 </strong>"
+        document.body.appendChild(totalDiv)
+
+        checkboxes.forEach((checkbox, index) => {
+            checkbox.addEventListener("change", () => {
+                const linha = checkbox.closest("tr")
+                const inputQtd = linha.querySelector(".quantidade")
+                inputQtd.disabled = !checkbox.checked
+                if (!checkbox.checked) {
+                    inputQtd.value = 0
+                }
+                calcularTotal()
+            })
+
+            const linha = checkbox.closest("tr")
+            const inputQtd = linha.querySelector(".quantidade")
+            inputQtd.addEventListener("input", calcularTotal)
+        })
+
+        radios.forEach(radio => {
+            radio.addEventListener("change", calcularTotal)
+        })
+
+        radios.forEach(radio => {
+            radio.addEventListener("change", () => {
+                if (radio.value === "aPrazo") {
+                    divParcelamento.style.display = "block"
+                } else {
+                    divParcelamento.style.display = "none"
+                    selectParcelas.value = ""
+                }
+                calcularTotal()
+            })
+        })
+
+        selectParcelas.addEventListener("change", calcularTotal)
+
+        function calcularTotal() {
+            let total = 0
+            const linhas = corpoTabela.querySelectorAll("tr")
+
+            linhas.forEach(linha => {
+                const checkbox = linha.querySelector(".selecionar")
+                const preco = parseFloat(linha.querySelector(".preco").textContent)
+                const quantidade = parseFloat(linha.querySelector(".quantidade").value)
+
+                if (checkbox.checked && quantidade > 0) {
+                    total = total + preco * quantidade
+                }
+            })
+
+            let resultado = ""
+
+            const pagamentoSelecionado = document.querySelector("input[name='pagamento']:checked")
+
+            if (pagamentoSelecionado) {
+                if (pagamentoSelecionado.value === "aVista") {
+                    total = total * 0.915 //desconto
+                    resultado = `<strong>Total com 8.5% de desconto: R$ ${total.toFixed(2)}</strong>`;
+                } else if (pagamentoSelecionado.value === "aPrazo") {
+                    const parcelas = parseInt(selectParcelas.value)
+                    if (!isNaN(parcelas)) {
+                        let totalComTaxas = total * 1.06 + (6.90 * parcelas)
+                        let valorParcela = totalComTaxas / parcelas
+
+                        if (valorParcela < 10) {
+                            resultado = `<strong style="color: red;">Parcela inferior a R$ 10,00. Escolha menos parcelas.</strong>`
+                        } else {
+                            resultado = `<strong>Total com juros: R$ ${totalComTaxas.toFixed(2)}<br>${parcelas}x de R$ ${valorParcela.toFixed(2)}</strong>`
+                        }
+                    } else {
+                        resultado = `<strong> Selecione a quantidade de parcelas</strong>`
+                    }
+                }
+            }
+
+            totalDiv.innerHTML = resultado || `<strong> Total: R$ ${total.toFixed(2)} </strong>`
+        }
+    })
+
+
+
+</script>
